@@ -1,7 +1,7 @@
 import SwiftUI
 
 enum Destination: Hashable {
-    case podcastDetails(String)
+    case podcastDetails(PodcastDetailsModel)
 }
 
 /// Acts as a coordinator for the app and manages the navigation.
@@ -14,5 +14,23 @@ final class RootModel {
     init(dependencies: Dependencies) {
         self.dependencies = dependencies
         self.podcastsListModel = PodcastsListModel(dependencies: dependencies)
+        podcastsListModel.onPresentPodcastDetails = { [weak self] podcast in
+            guard let self else { return }
+            Task { @MainActor in
+                self.presentPodcastDetails(podcast: podcast)
+            }
+        }
+    }
+
+    @MainActor
+    func presentPodcastDetails(podcast: Podcast) {
+        path.append(
+            Destination.podcastDetails(
+                PodcastDetailsModel(
+                    podcast: podcast,
+                    dependencies: dependencies
+                )
+            )
+        )
     }
 }

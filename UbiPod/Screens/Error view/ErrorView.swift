@@ -14,6 +14,10 @@ struct ErrorView: View {
                 .font(.system(.headline).bold())
         }
         .foregroundStyle(.textHint)
+        .containerRelativeFrame(
+            [.horizontal, .vertical],
+            alignment: .center
+        )
     }
 }
 

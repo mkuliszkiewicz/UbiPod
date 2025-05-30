@@ -1,14 +1,59 @@
 import Foundation
 
-final class PodcastsAPIClient: TopPodcastsLoading {
-
+final class PodcastsAPIClient: TopPodcastsLoading, PodcastDetailsLoading, PodcastEpisodesLoading {
     enum APIError: Swift.Error {
         case invalidUrl
+        case podcastNotFound
     }
 
-    let loadData: LoadData
+    private let loadData: LoadData
+
     init(loadData: @escaping LoadData) {
         self.loadData = loadData
+    }
+
+    func loadPodcastEpisodes(podcastId: String) async throws -> [PodcastEpisode] {
+        guard let url = URL(string: "https://itunes.apple.com/lookup?id=\(podcastId)&media=podcast&entity=podcastEpisode&limit=20") else {
+            throw APIError.invalidUrl
+        }
+
+        let request = URLRequest(url: url, timeoutInterval: 5)
+
+        let (data, _) = try await loadData(request)
+
+        let jsonDecoder = JSONDecoder()
+
+        struct ResponseEnvelope: Decodable {
+            let results: [EpisodesParsingHelper]
+        }
+
+        let envelope = try jsonDecoder.decode(ResponseEnvelope.self, from: data)
+
+        return envelope.results.compactMap(\.episode)
+    }
+
+    func loadPodcastDetails(podcastId: String) async throws -> DetailedPodcast {
+        guard let url = URL(string: "https://itunes.apple.com/lookup?id=\(podcastId)") else {
+            throw APIError.invalidUrl
+        }
+
+        let request = URLRequest(url: url, timeoutInterval: 5)
+
+        let (data, _) = try await loadData(request)
+
+        let jsonDecoder = JSONDecoder()
+
+        struct ResponseEnvelope: Decodable {
+            let results: [DetailedPodcast]
+        }
+
+        let envelope = try jsonDecoder.decode(ResponseEnvelope.self, from: data)
+
+        guard let detailedPodcast = envelope.results.first else {
+            throw APIError.podcastNotFound
+        }
+
+        return detailedPodcast
     }
 
     func loadTopPodcasts(countryCode: String, limit: UInt) async throws -> [Podcast] {
@@ -35,5 +80,33 @@ final class PodcastsAPIClient: TopPodcastsLoading {
         let envelope = try jsonDecoder.decode(ResponseEnvelope.self, from: data)
 
         return envelope.feed.results
+    }
+}
+
+private enum EpisodesParsingHelper: Decodable {
+    case other
+    case episode(PodcastEpisode)
+
+    var episode: PodcastEpisode? {
+        switch self {
+        case .other: nil
+        case .episode(let podcastEpisode): podcastEpisode
+        }
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case wrapperType
+    }
+
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let wrapperKind = try container.decode(String.self, forKey: .wrapperType)
+
+        // The lookup API returns objects of different types so we need to employ a custom parsing
+        if wrapperKind == "podcastEpisode" {
+            self = .episode(try PodcastEpisode(from: decoder))
+        } else {
+            self = .other
+        }
     }
 }

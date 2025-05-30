@@ -10,23 +10,17 @@ protocol TopPodcastsLoading: AnyObject {
 @Observable
 final class PodcastsListModel {
     enum State: Hashable {
+        case idle
         case loading
         case loaded([Podcast])
         case failed
-
-        var isLoaded: Bool {
-            switch self {
-            case .loading:
-                false
-            case .loaded:
-                true
-            case .failed:
-                false
-            }
-        }
     }
 
-    var state: State = .loading
+    var state: State = .idle
+
+    var onPresentPodcastDetails: (Podcast) -> Void = { _ in
+        assertionFailure("onPresentPodcastDetails not implemented")
+    }
 
     private let topPodcastsLoader: any TopPodcastsLoading
 
@@ -43,7 +37,7 @@ final class PodcastsListModel {
     }
 
     @MainActor
-    func load() async {
+    func reload() async {
         state = .loading
         do {
             let podcasts = try await topPodcastsLoader.loadTopPodcasts(
@@ -57,8 +51,14 @@ final class PodcastsListModel {
         }
     }
 
-    func onPodcastTap(podcast: Podcast) {
+    @MainActor
+    func firstLoad() async {
+        guard state == .idle || state == .failed else { return }
+        await reload()
+    }
 
+    func onPodcastTap(podcast: Podcast) {
+        onPresentPodcastDetails(podcast)
     }
 }
 
@@ -68,7 +68,7 @@ struct PodcastsListView: View {
     var body: some View {
         VStack(spacing: 0) {
             switch model.state {
-            case .loading:
+            case .loading, .idle:
                 LoadingView()
             case .loaded(let podcasts):
                 ScrollView {
@@ -100,15 +100,16 @@ struct PodcastsListView: View {
                     }
                 }
                 .refreshable {
-                    await model.load()
+                    await model.reload()
                 }
             case .failed:
                 ErrorView(reason: "Unable to load podcasts")
             }
         }
+        .animation(.easeInOut, value: model.state)
         .background(Color.backgroundSurface)
         .task(id: "load-podcasts-list") {
-            await model.load()
+            await model.firstLoad()
         }
         .navigationTitle("Top podcasts")
         .navigationBarTitleDisplayMode(.inline)
