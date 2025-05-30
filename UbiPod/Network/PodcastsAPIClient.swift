@@ -22,7 +22,8 @@ final class PodcastsAPIClient: TopPodcastsLoading, PodcastDetailsLoading, Podcas
         let (data, _) = try await loadData(request)
 
         let jsonDecoder = JSONDecoder()
-
+        jsonDecoder.dateDecodingStrategy = .iso8601
+        
         struct ResponseEnvelope: Decodable {
             let results: [EpisodesParsingHelper]
         }
@@ -42,6 +43,7 @@ final class PodcastsAPIClient: TopPodcastsLoading, PodcastDetailsLoading, Podcas
         let (data, _) = try await loadData(request)
 
         let jsonDecoder = JSONDecoder()
+        jsonDecoder.dateDecodingStrategy = .iso8601
 
         struct ResponseEnvelope: Decodable {
             let results: [DetailedPodcast]

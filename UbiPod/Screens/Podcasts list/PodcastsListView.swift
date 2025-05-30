@@ -1,67 +1,6 @@
 import os
 import SwiftUI
 
-private let logger = os.Logger(subsystem: "com.kuliszkiewicz.ubipod", category: "PodcastsListModel")
-
-protocol TopPodcastsLoading: AnyObject {
-    func loadTopPodcasts(countryCode: String, limit: UInt) async throws -> [Podcast]
-}
-
-@Observable
-final class PodcastsListModel {
-    enum State: Hashable {
-        case idle
-        case loading
-        case loaded([Podcast])
-        case failed
-    }
-
-    var state: State = .idle
-
-    var onPresentPodcastDetails: (Podcast) -> Void = { _ in
-        assertionFailure("onPresentPodcastDetails not implemented")
-    }
-
-    private let topPodcastsLoader: any TopPodcastsLoading
-
-    init(topPodcastsLoader: any TopPodcastsLoading) {
-        self.topPodcastsLoader = topPodcastsLoader
-    }
-
-    convenience init(dependencies: Dependencies) {
-        self.init(
-            topPodcastsLoader: PodcastsAPIClient(
-                loadData: dependencies.loadData
-            )
-        )
-    }
-
-    @MainActor
-    func reload() async {
-        state = .loading
-        do {
-            let podcasts = try await topPodcastsLoader.loadTopPodcasts(
-                countryCode: "PL",
-                limit: 10
-            )
-            state = .loaded(podcasts)
-        } catch {
-            logger.error("failed to load podcasts: \(error.localizedDescription, privacy: .auto)")
-            state = .failed
-        }
-    }
-
-    @MainActor
-    func firstLoad() async {
-        guard state == .idle || state == .failed else { return }
-        await reload()
-    }
-
-    func onPodcastTap(podcast: Podcast) {
-        onPresentPodcastDetails(podcast)
-    }
-}
-
 struct PodcastsListView: View {
     let model: PodcastsListModel
 
@@ -87,8 +26,6 @@ struct PodcastsListView: View {
                                     imageUrl: podcast.imageUrl
                                 )
                             }
-
-
                             .clipShape(
                                 RoundedRectangle(
                                     cornerRadius: 8,
@@ -103,7 +40,14 @@ struct PodcastsListView: View {
                     await model.reload()
                 }
             case .failed:
-                ErrorView(reason: "Unable to load podcasts")
+                ErrorView(
+                    reason: "Unable to load podcasts",
+                    onTryAgain: {
+                        Task {
+                            await model.reload()
+                        }
+                    }
+                )
             }
         }
         .animation(.easeInOut, value: model.state)

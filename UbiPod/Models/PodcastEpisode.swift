@@ -1,10 +1,10 @@
 import Foundation
 
-struct PodcastEpisode: Decodable {
+struct PodcastEpisode: Decodable, Hashable {
     let episodeUrl: URL
     let description: String
     let trackName: String
-    let id: Int
+    let id: Int64
     let releaseDate: Date // "2025-05-26T03:00:00Z"
     let trackTimeMillis: Int64
 

@@ -3,6 +3,8 @@ import SwiftUI
 struct ErrorView: View {
     let reason: String
 
+    var onTryAgain: () -> Void = { assertionFailure("onTryAgain not set") }
+
     var body: some View {
         VStack(spacing: 24) {
             Image(systemName: "x.circle")
@@ -12,6 +14,10 @@ struct ErrorView: View {
 
             Text(reason)
                 .font(.system(.headline).bold())
+
+            Button("Try again?") {
+                onTryAgain()
+            }
         }
         .foregroundStyle(.textHint)
         .containerRelativeFrame(
