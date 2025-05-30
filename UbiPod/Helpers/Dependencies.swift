@@ -31,10 +31,10 @@ extension Dependencies {
 #if DEBUG
                 let responseHeaders = (urlResponse as? HTTPURLResponse)?.allHeaderFields ?? [:]
                 let jsonObject = try JSONSerialization.jsonObject(with: data)
-                let formattedJson = try JSONSerialization.data(withJSONObject: jsonObject, options: .prettyPrinted)
+                let formattedJson = try JSONSerialization.data(withJSONObject: jsonObject, options: [])
                 let responseJson = String(bytes: formattedJson, encoding: .utf8) ?? "n/a"
                 logger
-                    .debug("Request: \(request.url?.absoluteString ?? "n/a", privacy: .auto)\nResponse:\n\(responseHeaders, privacy: .auto)\n \(responseJson, privacy: .private)")
+                    .debug("Request: \(request.url?.absoluteString ?? "n/a", privacy: .auto)\nResponse:\n\(responseHeaders, privacy: .auto)\n\(responseJson, privacy: .private)")
 #endif
 
                 return (data, urlResponse)

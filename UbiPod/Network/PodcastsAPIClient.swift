@@ -1,6 +1,6 @@
 import Foundation
 
-final class PodcastsAPIClient {
+final class PodcastsAPIClient: TopPodcastsLoading {
 
     enum APIError: Swift.Error {
         case invalidUrl
@@ -26,11 +26,14 @@ final class PodcastsAPIClient {
         // In a real life scenario a domain mapping here would occur, so I would map response objects
         // to the local domain objects. But due to the time constraint I've decided to skip it.
         struct ResponseEnvelope: Decodable {
-            let results: [Podcast]
+            struct Feed: Decodable {
+                let results: [Podcast]
+            }
+            let feed: Feed
         }
 
         let envelope = try jsonDecoder.decode(ResponseEnvelope.self, from: data)
 
-        return envelope.results
+        return envelope.feed.results
     }
 }

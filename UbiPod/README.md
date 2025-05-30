@@ -7,3 +7,4 @@
 - Offline mode support (to browse the top podcasts)
 - Background podcast playback
 - No 3rd party dependencies
+

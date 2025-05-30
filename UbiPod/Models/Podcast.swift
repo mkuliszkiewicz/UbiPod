@@ -5,7 +5,7 @@ struct Podcast: Identifiable, Hashable, Decodable {
     let name: String
     let imageUrl: URL?
     let genres: [Genre]
-    let url: URL
+    let url: URL?
 
     enum CodingKeys: String, CodingKey {
         case id
