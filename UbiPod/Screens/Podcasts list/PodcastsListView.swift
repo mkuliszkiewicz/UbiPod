@@ -56,6 +56,10 @@ final class PodcastsListModel {
             state = .failed
         }
     }
+
+    func onPodcastTap(podcast: Podcast) {
+
+    }
 }
 
 struct PodcastsListView: View {
@@ -70,13 +74,21 @@ struct PodcastsListView: View {
                 ScrollView {
                     LazyVStack {
                         ForEach(podcasts) { podcast in
-                            PodcastListRow(
-                                name: podcast.name,
-                                genres: podcast.genres.map(
-                                    \.name
-                                ),
-                                imageUrl: podcast.imageUrl
-                            )
+                            Button(action: {
+                                model.onPodcastTap(
+                                    podcast: podcast
+                                )
+                            }) {
+                                PodcastListRow(
+                                    name: podcast.name,
+                                    genres: podcast.genres.map(
+                                        \.name
+                                    ),
+                                    imageUrl: podcast.imageUrl
+                                )
+                            }
+
+
                             .clipShape(
                                 RoundedRectangle(
                                     cornerRadius: 8,
@@ -87,6 +99,9 @@ struct PodcastsListView: View {
                         }
                     }
                 }
+                .refreshable {
+                    await model.load()
+                }
             case .failed:
                 ErrorView(reason: "Unable to load podcasts")
             }
@@ -95,15 +110,19 @@ struct PodcastsListView: View {
         .task(id: "load-podcasts-list") {
             await model.load()
         }
+        .navigationTitle("Top podcasts")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
 #Preview {
-    PodcastsListView(
-        model: .init(
-            topPodcastsLoader: PreviewPodcastsLoader()
+    NavigationStack {
+        PodcastsListView(
+            model: .init(
+                topPodcastsLoader: PreviewPodcastsLoader()
+            )
         )
-    )
+    }
 }
 
 final class PreviewPodcastsLoader: TopPodcastsLoading {

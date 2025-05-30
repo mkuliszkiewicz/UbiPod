@@ -6,7 +6,9 @@ struct RootView: View {
 
     var body: some View {
         NavigationStack {
-            PodcastsListView(model: rootModel.podcastsListModel)
+            PodcastsListView(
+                model: rootModel.podcastsListModel
+            )
         }
     }
 }

@@ -9,7 +9,7 @@ struct PodcastListRow: View {
         HStack(alignment: .top) {
             VStack(alignment: .leading, spacing: 8) {
                 Text(name)
-                    .font(.system(.title3).weight(.semibold))
+                    .font(.system(.headline).weight(.semibold))
                     .foregroundStyle(.textPrimary)
                     .lineLimit(2)
 
@@ -18,6 +18,7 @@ struct PodcastListRow: View {
                     .foregroundStyle(.textSecondary)
                     .lineLimit(1)
             }
+
             if let imageUrl {
                 Spacer()
                 AsyncImage(url: imageUrl) { phase in
@@ -29,12 +30,12 @@ struct PodcastListRow: View {
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                     case .failure:
-                        Color.red
+                        Color.secondary
                     @unknown default:
-                        EmptyView()
+                        Color.secondary
                     }
                 }
-                .frame(width: 100, height: 100)
+                .frame(width: 50, height: 50)
             }
 
         }
