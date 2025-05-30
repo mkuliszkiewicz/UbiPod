@@ -3,9 +3,10 @@ import SwiftUI
 /// Handles the chrome of the app
 struct RootView: View {
     let rootModel: RootModel
+
     var body: some View {
         NavigationStack {
-            EmptyView()
+            PodcastsListView(model: rootModel.podcastsListModel)
         }
     }
 }
