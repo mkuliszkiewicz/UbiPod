@@ -31,7 +31,8 @@ struct MainEntryPoint {
 struct UbiPodApp: App {
     var body: some Scene {
         WindowGroup {
-            RootView(rootModel: rootModel)
+            RootView(model: rootModel)
+                .background(Color.backgroundSurface)
         }
     }
 }

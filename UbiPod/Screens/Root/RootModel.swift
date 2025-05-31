@@ -4,18 +4,19 @@ enum Destination: Hashable {
     case podcastDetails(PodcastDetailsModel)
 }
 
-/// Acts as a coordinator for the app and manages the navigation.
+/// Acts as a coordinator for the app and manages the navigation + chrome.
 @Observable
-final class RootModel {
+final class RootModel: @unchecked Sendable {
     var path = NavigationPath()
     let dependencies: Dependencies
     let podcastsListModel: PodcastsListModel
 
+    var hasInternetConnection = true
     var selectedCountry: Country {
         didSet {
             guard oldValue != selectedCountry else { return }
             dependencies.userDefaults.userSelectedCountry = selectedCountry
-            
+
             Task {
                 await self.podcastsListModel.update(country: self.selectedCountry)
             }
@@ -40,6 +41,19 @@ final class RootModel {
             guard let self else { return }
             Task { @MainActor in
                 self.presentPodcastDetails(podcast: podcast)
+            }
+        }
+
+        observeInternetConnection()
+    }
+
+    private func observeInternetConnection() {
+        withObservationTracking({
+            self.hasInternetConnection = dependencies.networkMonitor.hasInternetConnection
+        }) { [weak self] in
+            guard let self else { return }
+            DispatchQueue.main.async {
+                self.observeInternetConnection()
             }
         }
     }

@@ -2,14 +2,14 @@ import SwiftUI
 
 /// Handles the chrome of the app
 struct RootView: View {
-    let rootModel: RootModel
+    let model: RootModel
 
     var body: some View {
         // This dance is needed to feed a binding to the NavigationStack
-        @Bindable var model = rootModel
+        @Bindable var model = model
         NavigationStack(path: $model.path) {
             PodcastsListView(
-                model: rootModel.podcastsListModel
+                model: model.podcastsListModel
             )
             .navigationDestination(for: Destination.self) { destination in
                 switch destination {
@@ -35,17 +35,28 @@ struct RootView: View {
                 }
             }
         }
+
+        if !model.hasInternetConnection {
+            HStack(spacing: 0) {
+                Image(systemName: "network.slash")
+                Text("You are not connected to the internet")
+                    .font(.footnote)
+                    .foregroundStyle(.textHint)
+                    .padding()
+            }
+            .containerRelativeFrame([.horizontal], alignment: .center)
+        }
     }
 }
 
 #Preview {
-    
     RootView(
-        rootModel: .init(
+        model: .init(
             selectedCountry: .PL,
             dependencies: .makePreview()
         )
     )
+    .background(Color.backgroundSurface)
 }
 
 extension Dependencies {
@@ -54,7 +65,7 @@ extension Dependencies {
             loadData: { _ in
                 return (Data(), URLResponse())
             },
-            networkMonitor: ConstantNetworkMonitor(isConnected: true),
+            networkMonitor: ConstantNetworkMonitor(hasInternetConnection: false),
             userDefaults: UserDefaults(suiteName: "preview")!
         )
     }

@@ -1,7 +1,9 @@
 import os
 import Foundation
 
-// In reality this is all we need 
+private let logger = os.Logger(subsystem: "com.kuliszkiewicz.ubipod", category: "HTTPCall")
+
+// In reality this is all we need
 typealias LoadData = (URLRequest) async throws -> (Data, URLResponse)
 
 /// A Dependencies class is used to inject the "base" dependencies into the leaves of the application tree.
@@ -22,8 +24,6 @@ final class Dependencies {
         self.userDefaults = userDefaults
     }
 }
-
-private let logger = os.Logger(subsystem: "com.kuliszkiewicz.ubipod", category: "HTTPCall")
 
 extension Dependencies {
     static func makeDefault() -> Dependencies {
