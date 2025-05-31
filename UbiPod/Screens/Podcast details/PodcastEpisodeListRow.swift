@@ -14,15 +14,16 @@ struct PodcastEpisodeListRow: View {
                 .multilineTextAlignment(.leading)
 
             Text(subtitle)
-                .font(.system(.callout).weight(.light))
+                .font(.system(.footnote).weight(.light))
                 .foregroundStyle(.textSecondary)
+                .lineLimit(5, reservesSpace: true)
 
             Text("Duration: " + duration)
-                .font(.system(.footnote).weight(.light))
+                .font(.system(.caption2).weight(.bold))
                 .foregroundStyle(.textSecondary)
 
             Text("Release date: " + releaseDate)
-                .font(.system(.footnote).weight(.light))
+                .font(.system(.caption2).weight(.bold))
                 .foregroundStyle(.textSecondary)
         }
         .padding()
@@ -37,7 +38,7 @@ struct PodcastEpisodeListRow: View {
 #Preview {
     PodcastEpisodeListRow(
         title: "Very long name - Very long name Very long name",
-        subtitle: ["Genre 1", "Genre 2", "Genre 3", "Genre 4", "Genre 5", "Genre 6", "Genre 7"].joined(separator: ", "),
+        subtitle: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
         duration: "1m 50s",
         releaseDate: "28.10.90"
     )

@@ -31,12 +31,13 @@ struct PodcastListRow: View {
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                     case .failure:
-                        Color.secondary
+                        EmptyView()
                     @unknown default:
-                        Color.secondary
+                        EmptyView()
                     }
                 }
                 .frame(width: 50, height: 50)
+                .accessibilityHidden(true)
             }
 
         }

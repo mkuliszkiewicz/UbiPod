@@ -7,6 +7,13 @@ extension DateFormatter {
         df.timeStyle = .short
         return df
     }()
+
+    static let accessibilityDateFormatter: DateFormatter = {
+        let df = DateFormatter()
+        df.dateStyle = .short
+        df.timeStyle = .none
+        return df
+    }()
 }
 
 extension Date {

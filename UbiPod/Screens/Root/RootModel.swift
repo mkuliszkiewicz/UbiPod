@@ -1,10 +1,5 @@
 import SwiftUI
 
-enum Destination: Hashable {
-    case podcastDetails(PodcastDetailsModel)
-}
-
-/// Acts as a coordinator for the app and manages the navigation + chrome.
 @Observable
 final class RootModel: @unchecked Sendable {
     var path = NavigationPath()
@@ -87,4 +82,8 @@ extension UserDefaultsType {
             set(newValue.rawValue, forKey: "selected-country")
         }
     }
+}
+
+enum Destination: Hashable {
+    case podcastDetails(PodcastDetailsModel)
 }

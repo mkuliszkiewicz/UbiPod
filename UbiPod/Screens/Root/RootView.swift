@@ -1,11 +1,11 @@
 import SwiftUI
 
-/// Handles the chrome of the app
+/// Handles the chrome of the app and country selection
 struct RootView: View {
     let model: RootModel
 
     var body: some View {
-        // This dance is needed to feed a binding to the NavigationStack
+        // This dance is needed to feed the path binding to the NavigationStack
         @Bindable var model = model
         NavigationStack(path: $model.path) {
             PodcastsListView(
@@ -27,6 +27,8 @@ struct RootView: View {
                         } label: {
                             Label(title: {
                                 Text(country.rawValue)
+                                    .accessibilityAddTraits(country == model.selectedCountry ? [.isSelected] : [])
+                                    .accessibilityLabel(country.accessibilityName)
                             }) {
                                 if country == model.selectedCountry {
                                     Image(systemName: "checkmark")
@@ -35,18 +37,13 @@ struct RootView: View {
                         }
                     }
                 }
+                .accessibilityLabel("Current country: \(model.selectedCountry.accessibilityName)")
+                .accessibilityHint("Use to change the top podcasts country")
             }
         }
 
         if !model.hasInternetConnection {
-            HStack(spacing: 0) {
-                Image(systemName: "network.slash")
-                Text("No internet connection")
-                    .font(.footnote)
-                    .foregroundStyle(.textHint)
-                    .padding()
-            }
-            .containerRelativeFrame([.horizontal], alignment: .center)
+            NoInternetConnectionView()
         }
     }
 }
@@ -61,15 +58,17 @@ struct RootView: View {
     .background(Color.backgroundSurface)
 }
 
-extension Dependencies {
-    static func makePreview() -> Dependencies {
-        .init(
-            loadData: { _ in
-                return (Data(), URLResponse())
-            },
-            networkMonitor: ConstantNetworkMonitor(hasInternetConnection: false),
-            userDefaults: UserDefaults(suiteName: "preview")!
-        )
+struct NoInternetConnectionView: View {
+    var body: some View {
+        HStack(spacing: 0) {
+            Image(systemName: "network.slash")
+            Text("No internet connection")
+                .font(.footnote)
+                .foregroundStyle(.textHint)
+                .padding()
+        }
+        .containerRelativeFrame([.horizontal], alignment: .center)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("No internet connection")
     }
 }
-

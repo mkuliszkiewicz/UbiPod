@@ -24,6 +24,11 @@ struct ErrorView: View {
             [.horizontal, .vertical],
             alignment: .center
         )
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("\(reason), double tap to retry")
+        .accessibilityAction {
+            onTryAgain()
+        }
     }
 }
 

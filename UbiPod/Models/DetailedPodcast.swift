@@ -14,4 +14,8 @@ struct DetailedPodcast: Decodable, Hashable {
         case releaseDate
         case trackCount
     }
+
+    var accessibilityLabel: String {
+        "Podcast: \(name), episodes: \(trackCount), latest episode release date: \(DateFormatter.accessibilityDateFormatter.string(for: releaseDate) ?? "")"
+    }
 }

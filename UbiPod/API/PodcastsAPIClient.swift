@@ -69,9 +69,6 @@ final class PodcastsAPIClient: TopPodcastsLoading, PodcastDetailsLoading, Podcas
 
         let jsonDecoder = JSONDecoder()
 
-        // Important note:
-        // In a real life scenario a domain mapping here would occur, so I would map response objects
-        // to the local domain objects. But due to the time constraint I've decided to skip it.
         struct ResponseEnvelope: Decodable {
             struct Feed: Decodable {
                 let results: [Podcast]
@@ -85,6 +82,8 @@ final class PodcastsAPIClient: TopPodcastsLoading, PodcastDetailsLoading, Podcas
     }
 }
 
+/// The lookup API returns objects of different types so we need to employ a custom parsing
+/// to prevent the failure of parsing of the whole array
 private enum EpisodesParsingHelper: Decodable {
     case other
     case episode(PodcastEpisode)
@@ -104,7 +103,6 @@ private enum EpisodesParsingHelper: Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let wrapperKind = try container.decode(String.self, forKey: .wrapperType)
 
-        // The lookup API returns objects of different types so we need to employ a custom parsing
         if wrapperKind == "podcastEpisode" {
             self = .episode(try PodcastEpisode(from: decoder))
         } else {

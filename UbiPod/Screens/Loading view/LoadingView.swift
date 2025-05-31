@@ -11,6 +11,7 @@ struct LoadingView: View {
                 [.horizontal, .vertical],
                 alignment: .center
             )
+            .accessibilityLabel("Loading data")
     }
 }
 

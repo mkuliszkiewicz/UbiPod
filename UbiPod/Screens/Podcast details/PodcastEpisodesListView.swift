@@ -9,7 +9,7 @@ struct PodcastEpisodesListView: View {
                 PodcastEpisodeListRow(
                     title: episode.trackName,
                     subtitle: episode.shortDescription,
-                    duration: episode.durationDisplayString,
+                    duration: episode.durationDisplayString ?? "n/a",
                     releaseDate: episode.releaseDate.displayString
                 )
                 .clipShape(
@@ -18,16 +18,22 @@ struct PodcastEpisodesListView: View {
                         style: .continuous
                     )
                 )
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel(episode.accessibilityLabel)
             }
         }
     }
 }
 
 extension PodcastEpisode {
-    var durationDisplayString: String {
-        guard let trackTimeMillis else { return "n/a" }
+    var durationDisplayString: String? {
+        guard let trackTimeMillis else { return nil }
         var dateComponents = DateComponents()
         dateComponents.second = trackTimeMillis / 1000
-        return DateComponentsFormatter.durationFormatter.string(from: dateComponents) ?? "n/a"
+        return DateComponentsFormatter.durationFormatter.string(from: dateComponents)
+    }
+
+    var accessibilityLabel: String {
+        "Podcast episode: \(trackName), released: \(DateFormatter.accessibilityDateFormatter.string(from: releaseDate)), duration: \(durationDisplayString ?? "n/a")"
     }
 }

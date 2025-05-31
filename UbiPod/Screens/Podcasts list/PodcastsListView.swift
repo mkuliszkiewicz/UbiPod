@@ -20,9 +20,10 @@ struct PodcastsListView: View {
                             }) {
                                 PodcastListRow(
                                     title: podcast.name,
-                                    subtitle: podcast.genres.map(\.name).joined(separator: ", "),
+                                    subtitle: podcast.genresDisplayString,
                                     imageUrl: podcast.imageUrl
                                 )
+                                .accessibilityElement(children: .ignore)
                             }
                             .clipShape(
                                 RoundedRectangle(
@@ -31,6 +32,8 @@ struct PodcastsListView: View {
                                 )
                             )
                             .padding(.horizontal)
+                            .accessibilityHint("Double tap to show details")
+                            .accessibilityLabel(podcast.accessibilityLabel)
                         }
                     }
                     .padding(.vertical)

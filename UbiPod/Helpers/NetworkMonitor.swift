@@ -24,9 +24,6 @@ final class NetworkMonitor: NetworkMonitoring {
             }
         }
 
-        // For simplicity sake the backgrounding of the app is not handled here
-        // but I want to highlight that it should be stoped when the application enters background
-        // and restarted once it enters foreground
         networkMonitor.start(queue: DispatchQueue.global(qos: .utility))
     }
 }

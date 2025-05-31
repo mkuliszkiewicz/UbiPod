@@ -38,46 +38,6 @@ struct PodcastDetailsView: View {
     }
 }
 
-struct PodcastDetailsHeaderView: View {
-    let detailedPodcast: DetailedPodcast
-
-    var body: some View {
-        VStack(spacing: 8) {
-            AsyncImage(
-                url: detailedPodcast.imageUrl,
-                transaction: Transaction(animation: .smooth)
-            ) { phase in
-                switch phase {
-                case .empty, .failure:
-                    EmptyView()
-                case .success(let image):
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                @unknown default:
-                    EmptyView()
-                }
-            }
-            .frame(height: 200)
-
-            Text(detailedPodcast.name)
-                .font(.largeTitle.bold())
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .foregroundStyle(.textPrimary)
-
-            Text("Episodes: \(detailedPodcast.trackCount)")
-                .font(.headline.weight(.light))
-                .foregroundStyle(.textSecondary)
-                .frame(maxWidth: .infinity, alignment: .leading)
-
-            Text("Latest episode: \(detailedPodcast.releaseDate.displayString)")
-                .font(.headline.weight(.light))
-                .foregroundStyle(.textSecondary)
-                .frame(maxWidth: .infinity, alignment: .leading)
-        }
-    }
-}
-
 #Preview {
     NavigationStack {
         PodcastDetailsView(

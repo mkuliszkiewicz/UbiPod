@@ -32,6 +32,7 @@ extension Dependencies {
                 let session = URLSession.shared
                 do {
                     let (data, urlResponse) = try await session.data(for: request)
+                    // logResponse(urlResponse: urlResponse, data: data, request: request)
                     return (data, urlResponse)
                 } catch let urlError as URLError where urlError.code == .notConnectedToInternet {
                     do {
@@ -49,6 +50,14 @@ extension Dependencies {
             },
             networkMonitor: NetworkMonitor(),
             userDefaults: UserDefaults.standard
+        )
+    }
+
+    static func makePreview() -> Dependencies {
+        .init(
+            loadData: { _ in (Data(), URLResponse()) },
+            networkMonitor: ConstantNetworkMonitor(hasInternetConnection: false),
+            userDefaults: PreviewUserDefaults()
         )
     }
 }
