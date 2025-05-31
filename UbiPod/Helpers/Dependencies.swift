@@ -29,21 +29,41 @@ extension Dependencies {
     static func makeDefault() -> Dependencies {
         .init(
             loadData: { request in
-                let (data, urlResponse) = try await URLSession.shared.data(for: request)
-
-#if DEBUG
-                let responseHeaders = (urlResponse as? HTTPURLResponse)?.allHeaderFields ?? [:]
-                let jsonObject = try JSONSerialization.jsonObject(with: data)
-                let formattedJson = try JSONSerialization.data(withJSONObject: jsonObject, options: [])
-                let responseJson = String(bytes: formattedJson, encoding: .utf8) ?? "n/a"
-                logger
-                    .debug("Request: \(request.url?.absoluteString ?? "n/a", privacy: .auto)\nResponse:\n\(responseHeaders, privacy: .auto)\n\(responseJson, privacy: .private)")
-#endif
-
-                return (data, urlResponse)
+                let session = URLSession.shared
+                do {
+                    let (data, urlResponse) = try await session.data(for: request)
+                    return (data, urlResponse)
+                } catch let urlError as URLError where urlError.code == .notConnectedToInternet {
+                    do {
+                        var newRequest = request
+                        newRequest.cachePolicy = .returnCacheDataDontLoad
+                        let (data, urlResponse) = try await session.data(for: newRequest)
+                        logger.debug("serving cached response for: \(request.url?.absoluteString ?? "n/a")")
+                        return (data, urlResponse)
+                    } catch {
+                        throw error
+                    }
+                } catch {
+                    throw error
+                }
             },
             networkMonitor: NetworkMonitor(),
             userDefaults: UserDefaults.standard
         )
     }
+}
+
+private func logResponse(
+    urlResponse: URLResponse,
+    data: Data,
+    request: URLRequest
+) {
+    do {
+        let responseHeaders = (urlResponse as? HTTPURLResponse)?.allHeaderFields ?? [:]
+        let jsonObject = try JSONSerialization.jsonObject(with: data)
+        let formattedJson = try JSONSerialization.data(withJSONObject: jsonObject, options: [])
+        let responseJson = String(bytes: formattedJson, encoding: .utf8) ?? "n/a"
+        logger
+            .debug("Request: \(request.url?.absoluteString ?? "n/a", privacy: .auto)\nResponse:\n\(responseHeaders, privacy: .auto)\n\(responseJson, privacy: .private)")
+    } catch {}
 }
