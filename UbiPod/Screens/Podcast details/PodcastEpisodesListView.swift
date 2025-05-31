@@ -25,6 +25,7 @@ struct PodcastEpisodesListView: View {
 
 extension PodcastEpisode {
     var durationDisplayString: String {
+        guard let trackTimeMillis else { return "n/a" }
         var dateComponents = DateComponents()
         dateComponents.second = trackTimeMillis / 1000
         return DateComponentsFormatter.durationFormatter.string(from: dateComponents) ?? "n/a"

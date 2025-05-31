@@ -6,7 +6,7 @@ struct PodcastEpisode: Decodable, Hashable, Identifiable {
     let trackName: String
     let id: Int64
     let releaseDate: Date
-    let trackTimeMillis: Int
+    let trackTimeMillis: Int?
 
     enum CodingKeys: String, CodingKey {
         case episodeUrl

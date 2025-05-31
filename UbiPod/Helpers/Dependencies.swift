@@ -12,12 +12,12 @@ typealias LoadData = (URLRequest) async throws -> (Data, URLResponse)
 final class Dependencies {
     let loadData: LoadData
     let networkMonitor: any NetworkMonitoring
-    let userDefaults: any UserDefaulting
+    let userDefaults: any UserDefaultsType
 
     init(
         loadData: @escaping LoadData,
         networkMonitor: any NetworkMonitoring,
-        userDefaults: any UserDefaulting
+        userDefaults: any UserDefaultsType
     ) {
         self.loadData = loadData
         self.networkMonitor = networkMonitor

@@ -71,7 +71,7 @@ final class RootModel: @unchecked Sendable {
     }
 }
 
-extension UserDefaulting {
+extension UserDefaultsType {
     var userSelectedCountry: Country {
         get {
             guard

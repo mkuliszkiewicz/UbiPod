@@ -146,7 +146,7 @@ final class TestNetworkMonitor: NetworkMonitoring {
     var hasInternetConnection = false
 }
 
-final class TestUserDefaults: UserDefaulting {
+final class TestUserDefaults: UserDefaultsType {
     var storage: [String: Any] = [:]
 
     func set(_ value: Any?, forKey defaultName: String) {
