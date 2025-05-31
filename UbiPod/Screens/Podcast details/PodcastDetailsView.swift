@@ -56,32 +56,3 @@ struct PodcastDetailsView: View {
     }
 
 }
-
-final class PreviewPodcastDetailsLoader: PodcastDetailsLoading {
-    func loadPodcastDetails(podcastId: String) async throws -> DetailedPodcast {
-        .init(
-            id: 1403172116,
-            name: "Kryminatorium",
-            imageUrl: URL(
-                string: "https://is1-ssl.mzstatic.com/image/thumb/Podcasts211/v4/63/b7/3b/63b73b95-3e7a-4515-4434-55d041005ce3/mza_5485170451367603359.jpg/600x600bb.jpg"
-            )!,
-            releaseDate: Date(),
-            trackCount: 100
-        )
-    }
-}
-
-final class PreviewPodcastEpisodesLoader: PodcastEpisodesLoading {
-    func loadPodcastEpisodes(podcastId: String) async throws -> [PodcastEpisode] {
-        [
-            .init(
-                episodeUrl: URL(string: "https://anchor.fm/s/ff12104c/podcast/play/101980816/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2025-3-30%2F399339382-44100-2-ab95293249fc9.mp3")!,
-                shortDescription: "Trójka studentów wraca z imprezy. Na monitoringu z windy wszystko wygląda spokojnie – śmiechy, chwiejne kroki, żadnych oznak konfliktu. A jednak chwilę później coś idzie bardzo nie tak. Co naprawdę wydarzyło się tamtej nocy? I dlaczego dziś tylko dwoje z nich może o tym opowiedzieć?",
-                trackName: "Ostatnie nagranie z windy. Co stało się później w apartamencie? | 372.",
-                id: 1000709850832,
-                releaseDate: Date(),
-                trackTimeMillis: 1643000
-            )
-        ]
-    }
-}
