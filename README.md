@@ -12,3 +12,4 @@
 - The application has basic light/dark mode support
 - The application has basic accessibility support - can be used with VoiceOver
 - It can be used on iPad
+- I have extracted the project settings to the .xcconfig files, configuring the project in that way enables easier PR diffing and clarity
