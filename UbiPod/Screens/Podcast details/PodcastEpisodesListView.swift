@@ -8,7 +8,9 @@ struct PodcastEpisodesListView: View {
             ForEach(episodes) { episode in
                 PodcastEpisodeListRow(
                     title: episode.trackName,
-                    subtitle: episode.shortDescription
+                    subtitle: episode.shortDescription,
+                    duration: episode.durationDisplayString,
+                    releaseDate: episode.releaseDate.displayString
                 )
                 .clipShape(
                     RoundedRectangle(
@@ -18,5 +20,13 @@ struct PodcastEpisodesListView: View {
                 )
             }
         }
+    }
+}
+
+extension PodcastEpisode {
+    var durationDisplayString: String {
+        var dateComponents = DateComponents()
+        dateComponents.second = trackTimeMillis / 1000
+        return DateComponentsFormatter.durationFormatter.string(from: dateComponents) ?? "n/a"
     }
 }

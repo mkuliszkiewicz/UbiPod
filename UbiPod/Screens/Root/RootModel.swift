@@ -11,17 +11,8 @@ final class RootModel: @unchecked Sendable {
     let dependencies: Dependencies
     let podcastsListModel: PodcastsListModel
 
-    var hasInternetConnection = true
-    var selectedCountry: Country {
-        didSet {
-            guard oldValue != selectedCountry else { return }
-            dependencies.userDefaults.userSelectedCountry = selectedCountry
-
-            Task {
-                await self.podcastsListModel.update(country: self.selectedCountry)
-            }
-        }
-    }
+    private(set) var hasInternetConnection = true
+    private(set) var selectedCountry: Country
 
     convenience init(dependencies: Dependencies) {
         self.init(
@@ -37,6 +28,7 @@ final class RootModel: @unchecked Sendable {
             selectedCountry: selectedCountry,
             dependencies: dependencies
         )
+
         podcastsListModel.onPresentPodcastDetails = { [weak self] podcast in
             guard let self else { return }
             Task { @MainActor in
@@ -56,6 +48,14 @@ final class RootModel: @unchecked Sendable {
                 self.observeInternetConnection()
             }
         }
+    }
+
+    @MainActor
+    func update(selectedCountry newCountry: Country) async {
+        guard selectedCountry != newCountry else { return }
+        selectedCountry = newCountry
+        dependencies.userDefaults.userSelectedCountry = newCountry
+        await podcastsListModel.update(country: newCountry)
     }
 
     @MainActor

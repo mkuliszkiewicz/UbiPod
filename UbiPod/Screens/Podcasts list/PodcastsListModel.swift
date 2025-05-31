@@ -4,7 +4,10 @@ import os
 private let logger = os.Logger(subsystem: "com.kuliszkiewicz.ubipod", category: "PodcastsListModel")
 
 protocol TopPodcastsLoading: AnyObject {
-    func loadTopPodcasts(countryCode: String, limit: UInt) async throws -> [Podcast]
+    func loadTopPodcasts(
+        countryCode: String,
+        limit: UInt
+    ) async throws -> [Podcast]
 }
 
 @Observable
@@ -16,14 +19,20 @@ final class PodcastsListModel {
     }
 
     private let topPodcastsLoader: any TopPodcastsLoading
-    private var selectedCountry: Country
+    private(set) var selectedCountry: Country
 
-    init(selectedCountry: Country, topPodcastsLoader: any TopPodcastsLoading) {
+    init(
+        selectedCountry: Country,
+        topPodcastsLoader: any TopPodcastsLoading
+    ) {
         self.selectedCountry = selectedCountry
         self.topPodcastsLoader = topPodcastsLoader
     }
 
-    convenience init(selectedCountry: Country, dependencies: Dependencies) {
+    convenience init(
+        selectedCountry: Country,
+        dependencies: Dependencies
+    ) {
         self.init(
             selectedCountry: selectedCountry,
             topPodcastsLoader: PodcastsAPIClient(

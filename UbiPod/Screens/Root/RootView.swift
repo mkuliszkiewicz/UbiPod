@@ -21,7 +21,9 @@ struct RootView: View {
                 Menu(model.selectedCountry.rawValue) {
                     ForEach(Country.allCases) { country in
                         Button {
-                            model.selectedCountry = country
+                            Task {
+                                await model.update(selectedCountry: country)
+                            }
                         } label: {
                             Label(title: {
                                 Text(country.rawValue)

@@ -6,8 +6,19 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		AC355C182DEAE645007A224F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AC3556542DE9CACF007A224F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AC35565B2DE9CACF007A224F;
+			remoteInfo = UbiPod;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		AC35565C2DE9CACF007A224F /* UbiPod.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UbiPod.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC355C142DEAE645007A224F /* UbiPodTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UbiPodTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -16,10 +27,22 @@
 			path = UbiPod;
 			sourceTree = "<group>";
 		};
+		AC355C152DEAE645007A224F /* UbiPodTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = UbiPodTests;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		AC3556592DE9CACF007A224F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AC355C112DEAE645007A224F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -33,6 +56,7 @@
 			isa = PBXGroup;
 			children = (
 				AC35565E2DE9CACF007A224F /* UbiPod */,
+				AC355C152DEAE645007A224F /* UbiPodTests */,
 				AC35565D2DE9CACF007A224F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				AC35565C2DE9CACF007A224F /* UbiPod.app */,
+				AC355C142DEAE645007A224F /* UbiPodTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -70,6 +95,29 @@
 			productReference = AC35565C2DE9CACF007A224F /* UbiPod.app */;
 			productType = "com.apple.product-type.application";
 		};
+		AC355C132DEAE645007A224F /* UbiPodTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AC355C1A2DEAE645007A224F /* Build configuration list for PBXNativeTarget "UbiPodTests" */;
+			buildPhases = (
+				AC355C102DEAE645007A224F /* Sources */,
+				AC355C112DEAE645007A224F /* Frameworks */,
+				AC355C122DEAE645007A224F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AC355C192DEAE645007A224F /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				AC355C152DEAE645007A224F /* UbiPodTests */,
+			);
+			name = UbiPodTests;
+			packageProductDependencies = (
+			);
+			productName = UbiPodTests;
+			productReference = AC355C142DEAE645007A224F /* UbiPodTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -82,6 +130,10 @@
 				TargetAttributes = {
 					AC35565B2DE9CACF007A224F = {
 						CreatedOnToolsVersion = 16.3;
+					};
+					AC355C132DEAE645007A224F = {
+						CreatedOnToolsVersion = 16.3;
+						TestTargetID = AC35565B2DE9CACF007A224F;
 					};
 				};
 			};
@@ -100,12 +152,20 @@
 			projectRoot = "";
 			targets = (
 				AC35565B2DE9CACF007A224F /* UbiPod */,
+				AC355C132DEAE645007A224F /* UbiPodTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		AC35565A2DE9CACF007A224F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AC355C122DEAE645007A224F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -122,7 +182,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AC355C102DEAE645007A224F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AC355C192DEAE645007A224F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AC35565B2DE9CACF007A224F /* UbiPod */;
+			targetProxy = AC355C182DEAE645007A224F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		AC3556652DE9CAD2007A224F /* Debug */ = {
@@ -304,6 +379,42 @@
 			};
 			name = Release;
 		};
+		AC355C1B2DEAE645007A224F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6Q85CZHVDW;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kuliszkiewicz.UbiPodTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UbiPod.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/UbiPod";
+			};
+			name = Debug;
+		};
+		AC355C1C2DEAE645007A224F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6Q85CZHVDW;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kuliszkiewicz.UbiPodTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UbiPod.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/UbiPod";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -321,6 +432,15 @@
 			buildConfigurations = (
 				AC3556682DE9CAD2007A224F /* Debug */,
 				AC3556692DE9CAD2007A224F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AC355C1A2DEAE645007A224F /* Build configuration list for PBXNativeTarget "UbiPodTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AC355C1B2DEAE645007A224F /* Debug */,
+				AC355C1C2DEAE645007A224F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

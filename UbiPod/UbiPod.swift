@@ -2,8 +2,6 @@ import SwiftUI
 import Foundation
 import os
 
-// It is somewhat controversial to create the dependencies instance here
-// but for the sake
 private let dependencies: Dependencies = .makeDefault()
 private let rootModel = RootModel(dependencies: dependencies)
 
