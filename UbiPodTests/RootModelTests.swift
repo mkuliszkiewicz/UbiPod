@@ -4,7 +4,6 @@ import Foundation
 import Testing
 
 struct RootModelTests {
-
     let networkMonitor = TestNetworkMonitor()
     let userDefaults = TestUserDefaults()
 
@@ -136,7 +135,7 @@ struct RootModelTests {
         // I would use MainSerialExecutor.swift from pointfree here
         // https://github.com/pointfreeco/swift-concurrency-extras/blob/main/Sources/ConcurrencyExtras/MainSerialExecutor.swift
         // But this sleep should be enough for the demo app
-        try await Task.sleep(nanoseconds: 3_000_000_0)
+        try await Task.sleep(for: .seconds(3))
 
         #expect(!sut.hasInternetConnection)
     }

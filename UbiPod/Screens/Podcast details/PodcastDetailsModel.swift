@@ -22,7 +22,7 @@ final class PodcastDetailsModel: HashableObject {
         let episodes: [PodcastEpisode]
     }
 
-    var state: LoadingState<ViewData> = .idle
+    private(set) var state: LoadingState<ViewData> = .idle
     let title: String
 
     init(
@@ -52,7 +52,10 @@ final class PodcastDetailsModel: HashableObject {
             let detailedPodcast = try await podcastDetailsLoader.loadPodcastDetails(podcastId: podcast.id)
             let episodes = try await podcastEpisodesLoader.loadPodcastEpisodes(podcastId: podcast.id)
             state = .loaded(
-                .init(detailedPodcast: detailedPodcast, episodes: episodes)
+                .init(
+                    detailedPodcast: detailedPodcast,
+                    episodes: episodes
+                )
             )
         } catch {
             logger.error("failed to load podcast details: \(error, privacy: .auto)")

@@ -41,7 +41,7 @@ struct RootView: View {
         if !model.hasInternetConnection {
             HStack(spacing: 0) {
                 Image(systemName: "network.slash")
-                Text("You are not connected to the internet")
+                Text("No internet connection")
                     .font(.footnote)
                     .foregroundStyle(.textHint)
                     .padding()

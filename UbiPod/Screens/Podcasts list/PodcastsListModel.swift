@@ -12,14 +12,13 @@ protocol TopPodcastsLoading: AnyObject {
 
 @Observable
 final class PodcastsListModel {
-    var state: LoadingState<[Podcast]> = .idle
-
     var onPresentPodcastDetails: (Podcast) -> Void = { _ in
         assertionFailure("onPresentPodcastDetails not implemented")
     }
 
     private let topPodcastsLoader: any TopPodcastsLoading
     private(set) var selectedCountry: Country
+    var state: LoadingState<[Podcast]> = .idle
 
     init(
         selectedCountry: Country,
