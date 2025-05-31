@@ -18,8 +18,20 @@ struct RootView: View {
                 }
             }
             .toolbar {
-                Button("Help") {
-                    print("Help tapped!")
+                Menu(model.selectedCountry.rawValue) {
+                    ForEach(Country.allCases) { country in
+                        Button {
+                            model.selectedCountry = country
+                        } label: {
+                            Label(title: {
+                                Text(country.rawValue)
+                            }) {
+                                if country == model.selectedCountry {
+                                    Image(systemName: "checkmark")
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -27,8 +39,10 @@ struct RootView: View {
 }
 
 #Preview {
+    
     RootView(
         rootModel: .init(
+            selectedCountry: .PL,
             dependencies: .makePreview()
         )
     )
@@ -40,7 +54,9 @@ extension Dependencies {
             loadData: { _ in
                 return (Data(), URLResponse())
             },
-            networkMonitor: ConstantNetworkMonitor(isConnected: true)
+            networkMonitor: ConstantNetworkMonitor(isConnected: true),
+            userDefaults: UserDefaults(suiteName: "preview")!
         )
     }
 }
+

@@ -16,13 +16,16 @@ final class PodcastsListModel {
     }
 
     private let topPodcastsLoader: any TopPodcastsLoading
+    private var selectedCountry: Country
 
-    init(topPodcastsLoader: any TopPodcastsLoading) {
+    init(selectedCountry: Country, topPodcastsLoader: any TopPodcastsLoading) {
+        self.selectedCountry = selectedCountry
         self.topPodcastsLoader = topPodcastsLoader
     }
 
-    convenience init(dependencies: Dependencies) {
+    convenience init(selectedCountry: Country, dependencies: Dependencies) {
         self.init(
+            selectedCountry: selectedCountry,
             topPodcastsLoader: PodcastsAPIClient(
                 loadData: dependencies.loadData
             )
@@ -34,7 +37,7 @@ final class PodcastsListModel {
         state = .loading
         do {
             let podcasts = try await topPodcastsLoader.loadTopPodcasts(
-                countryCode: "PL",
+                countryCode: selectedCountry.rawValue,
                 limit: 10
             )
             state = .loaded(podcasts)
@@ -42,6 +45,12 @@ final class PodcastsListModel {
             logger.error("failed to load podcasts: \(error, privacy: .auto)")
             state = .failed
         }
+    }
+
+    @MainActor
+    func update(country newCountry: Country) async {
+        self.selectedCountry = newCountry
+        await reload()
     }
 
     @MainActor

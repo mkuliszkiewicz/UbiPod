@@ -10,23 +10,15 @@ struct PodcastDetailsView: View {
                 LoadingView()
             case .loaded(let viewData):
                 ScrollView {
-                    VStack {
-                        AsyncImage(url: viewData.detailedPodcast.imageUrl) { phase in
-                            switch phase {
-                            case .empty, .failure:
-                                Color.secondary
-                            case .success(let image):
-                                image
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                            @unknown default:
-                                Color.secondary
-                            }
-                        }
-                        .frame(height: 300)
-
-                        Text(viewData.detailedPodcast.name)
+                    VStack(spacing: 24) {
+                        PodcastDetailsHeaderView(
+                            detailedPodcast: viewData.detailedPodcast
+                        )
+                        PodcastEpisodesListView(
+                            episodes: viewData.episodes
+                        )
                     }
+                    .padding(.horizontal)
                 }
             case .failed:
                 ErrorView(reason: "Unable to load podcast details") {
@@ -42,6 +34,46 @@ struct PodcastDetailsView: View {
         .background(Color.backgroundSurface)
         .task {
             await model.load()
+        }
+    }
+}
+
+struct PodcastDetailsHeaderView: View {
+    let detailedPodcast: DetailedPodcast
+
+    var body: some View {
+        VStack(spacing: 8) {
+            AsyncImage(
+                url: detailedPodcast.imageUrl,
+                transaction: Transaction(animation: .smooth)
+            ) { phase in
+                switch phase {
+                case .empty, .failure:
+                    EmptyView()
+                case .success(let image):
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                @unknown default:
+                    EmptyView()
+                }
+            }
+            .frame(height: 200)
+
+            Text(detailedPodcast.name)
+                .font(.largeTitle.bold())
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .foregroundStyle(.textPrimary)
+
+            Text("Episodes: \(detailedPodcast.trackCount)")
+                .font(.headline.weight(.light))
+                .foregroundStyle(.textSecondary)
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+            Text("Latest episode: \(detailedPodcast.releaseDate.displayString)")
+                .font(.headline.weight(.light))
+                .foregroundStyle(.textSecondary)
+                .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
 }
@@ -84,7 +116,7 @@ final class PreviewPodcastEpisodesLoader: PodcastEpisodesLoading {
         [
             .init(
                 episodeUrl: URL(string: "https://anchor.fm/s/ff12104c/podcast/play/101980816/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2025-3-30%2F399339382-44100-2-ab95293249fc9.mp3")!,
-                description: "Trójka studentów wraca z imprezy. Na monitoringu z windy wszystko wygląda spokojnie – śmiechy, chwiejne kroki, żadnych oznak konfliktu. A jednak chwilę później coś idzie bardzo nie tak. Co naprawdę wydarzyło się tamtej nocy? I dlaczego dziś tylko dwoje z nich może o tym opowiedzieć?",
+                shortDescription: "Trójka studentów wraca z imprezy. Na monitoringu z windy wszystko wygląda spokojnie – śmiechy, chwiejne kroki, żadnych oznak konfliktu. A jednak chwilę później coś idzie bardzo nie tak. Co naprawdę wydarzyło się tamtej nocy? I dlaczego dziś tylko dwoje z nich może o tym opowiedzieć?",
                 trackName: "Ostatnie nagranie z windy. Co stało się później w apartamencie? | 372.",
                 id: 1000709850832,
                 releaseDate: Date(),

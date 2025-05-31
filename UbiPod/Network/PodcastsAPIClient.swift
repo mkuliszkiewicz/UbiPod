@@ -13,7 +13,7 @@ final class PodcastsAPIClient: TopPodcastsLoading, PodcastDetailsLoading, Podcas
     }
 
     func loadPodcastEpisodes(podcastId: String) async throws -> [PodcastEpisode] {
-        guard let url = URL(string: "https://itunes.apple.com/lookup?id=\(podcastId)&media=podcast&entity=podcastEpisode&limit=20") else {
+        guard let url = URL(string: "https://itunes.apple.com/lookup?id=\(podcastId)&media=podcast&entity=podcastEpisode&limit=20&sort=recent") else {
             throw APIError.invalidUrl
         }
 

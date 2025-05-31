@@ -11,7 +11,7 @@ struct PodcastsListView: View {
                 LoadingView()
             case .loaded(let podcasts):
                 ScrollView {
-                    LazyVStack {
+                    LazyVStack(spacing: 16) {
                         ForEach(podcasts) { podcast in
                             Button(action: {
                                 model.onPodcastTap(
@@ -19,10 +19,8 @@ struct PodcastsListView: View {
                                 )
                             }) {
                                 PodcastListRow(
-                                    name: podcast.name,
-                                    genres: podcast.genres.map(
-                                        \.name
-                                    ),
+                                    title: podcast.name,
+                                    subtitle: podcast.genres.map(\.name).joined(separator: ", "),
                                     imageUrl: podcast.imageUrl
                                 )
                             }
@@ -35,6 +33,7 @@ struct PodcastsListView: View {
                             .padding(.horizontal)
                         }
                     }
+                    .padding(.vertical)
                 }
                 .refreshable {
                     await model.reload()
@@ -64,6 +63,7 @@ struct PodcastsListView: View {
     NavigationStack {
         PodcastsListView(
             model: .init(
+                selectedCountry: .US,
                 topPodcastsLoader: PreviewPodcastsLoader()
             )
         )

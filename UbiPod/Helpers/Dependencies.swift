@@ -5,18 +5,21 @@ import Foundation
 typealias LoadData = (URLRequest) async throws -> (Data, URLResponse)
 
 /// A Dependencies class is used to inject the "base" dependencies into the leaves of the application tree.
-/// For example: the disk access, a 3rd party logger hidden behind an interface, clock, network monitor.
+/// For example: the disk access, a 3rd party logger hidden behind an interface, clock, network monitor, user defaults etc.
 /// This allows to have a full control over the application during unit tests.
 final class Dependencies {
     let loadData: LoadData
     let networkMonitor: any NetworkMonitoring
+    let userDefaults: any UserDefaulting
 
     init(
         loadData: @escaping LoadData,
-        networkMonitor: any NetworkMonitoring
+        networkMonitor: any NetworkMonitoring,
+        userDefaults: any UserDefaulting
     ) {
         self.loadData = loadData
         self.networkMonitor = networkMonitor
+        self.userDefaults = userDefaults
     }
 }
 
@@ -39,7 +42,8 @@ extension Dependencies {
 
                 return (data, urlResponse)
             },
-            networkMonitor: NetworkMonitor()
+            networkMonitor: NetworkMonitor(),
+            userDefaults: UserDefaults.standard
         )
     }
 }
