@@ -4,7 +4,7 @@ import Foundation
 private let logger = os.Logger(subsystem: "com.kuliszkiewicz.ubipod", category: "HTTPCall")
 
 // In reality this is all we need
-typealias LoadData = (URLRequest) async throws -> (Data, URLResponse)
+typealias LoadData = @Sendable (URLRequest) async throws -> (Data, URLResponse)
 
 /// A Dependencies class is used to inject the "base" dependencies into the leaves of the application tree.
 /// For example: the disk access, a 3rd party logger hidden behind an interface, clock, network monitor, user defaults etc.

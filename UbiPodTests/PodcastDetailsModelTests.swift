@@ -2,6 +2,7 @@
 import Foundation
 import Testing
 
+@MainActor
 struct PodcastDetailsModelTests {
     let podcastDetailsLoader = TestPodcastDetailsLoader()
     let podcastEpisodesLoader = TestPodcastEpisodesLoader()
@@ -80,7 +81,7 @@ struct PodcastDetailsModelTests {
     }
 }
 
-final class TestPodcastDetailsLoader: PodcastDetailsLoading {
+final class TestPodcastDetailsLoader: PodcastDetailsLoading, @unchecked Sendable {
     var podcastId: String?
     var result: Result<DetailedPodcast, Error> = .success(
         .init(
@@ -98,7 +99,7 @@ final class TestPodcastDetailsLoader: PodcastDetailsLoading {
     }
 }
 
-final class TestPodcastEpisodesLoader: PodcastEpisodesLoading {
+final class TestPodcastEpisodesLoader: PodcastEpisodesLoading, @unchecked Sendable {
     var podcastId: String?
     var result: Result<[PodcastEpisode], Error> = .success([])
 

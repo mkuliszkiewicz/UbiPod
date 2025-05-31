@@ -2,6 +2,9 @@
 
 ![UbiPod icon](https://github.com/mkuliszkiewicz/UbiPod/blob/main/UbiPod/Assets.xcassets/AppIcon.appiconset/180.png?raw=true)
 
+### How to run the project?
+- Since there are no 3rd party dependencies, just open the `UbiPod.xcodeproj` in `Xcode` and hit CMD + R
+
 ### Solution description
 - API's used: https://rss.marketingtools.apple.com and https://itunes.apple.com/lookup
 - This application presents the top podcasts for a few selected countries, you can change the selected country via the top right menu

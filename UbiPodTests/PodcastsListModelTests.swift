@@ -2,6 +2,7 @@
 import Foundation
 import Testing
 
+@MainActor
 struct PodcastsListModelTests {
     let podcastsLoader = TestTopPodcastsLoader()
 
@@ -146,7 +147,7 @@ struct PodcastsListModelTests {
     }
 }
 
-final class TestTopPodcastsLoader: TopPodcastsLoading {
+final class TestTopPodcastsLoader: TopPodcastsLoading, @unchecked Sendable {
     var result: Result<[Podcast], Error> = .success([])
 
     var countryCode: String?

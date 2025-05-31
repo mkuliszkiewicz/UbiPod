@@ -1,11 +1,11 @@
 import Observation
 import os
 
-protocol PodcastDetailsLoading: AnyObject {
+protocol PodcastDetailsLoading: AnyObject, Sendable {
     func loadPodcastDetails(podcastId: String) async throws -> DetailedPodcast
 }
 
-protocol PodcastEpisodesLoading: AnyObject {
+protocol PodcastEpisodesLoading: AnyObject, Sendable {
     func loadPodcastEpisodes(podcastId: String) async throws -> [PodcastEpisode]
 }
 

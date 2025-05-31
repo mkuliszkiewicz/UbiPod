@@ -3,7 +3,7 @@ import os
 
 private let logger = os.Logger(subsystem: "com.kuliszkiewicz.ubipod", category: "PodcastsListModel")
 
-protocol TopPodcastsLoading: AnyObject {
+protocol TopPodcastsLoading: AnyObject, Sendable {
     func loadTopPodcasts(
         countryCode: String,
         limit: UInt

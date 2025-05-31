@@ -2,8 +2,8 @@ import SwiftUI
 import Foundation
 import os
 
-private let dependencies: Dependencies = .makeDefault()
-private let rootModel = RootModel(dependencies: dependencies)
+@MainActor private let dependencies: Dependencies = .makeDefault()
+@MainActor private let rootModel = RootModel(dependencies: dependencies)
 
 @main
 struct MainEntryPoint {

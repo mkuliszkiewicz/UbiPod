@@ -9,7 +9,7 @@ protocol NetworkMonitoring: AnyObject, Observable {
 }
 
 @Observable
-final class NetworkMonitor: NetworkMonitoring {
+final class NetworkMonitor: NetworkMonitoring, @unchecked Sendable {
     private let networkMonitor = NWPathMonitor()
     private(set) var hasInternetConnection = true
 
