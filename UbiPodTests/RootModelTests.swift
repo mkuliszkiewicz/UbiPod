@@ -108,10 +108,37 @@ struct RootModelTests {
         let listModel = sut.podcastsListModel
         #expect(sut.selectedCountry == .US)
 
-        // Act & Assert
+        // Act
         await sut.update(selectedCountry: .PL)
 
+        // Assert
         #expect(listModel.selectedCountry == .PL)
+    }
+
+    @Test
+    func testNetworkObservation_whenChanges_shouldUpdateProperty() async throws {
+        // Arrange
+        networkMonitor.hasInternetConnection = true
+
+        let sut = RootModel(
+            dependencies: .init(
+                loadData: { _ in (Data(), URLResponse()) },
+                networkMonitor: networkMonitor,
+                userDefaults: userDefaults
+            )
+        )
+
+        #expect(sut.hasInternetConnection)
+
+        // Act & Assert
+        networkMonitor.hasInternetConnection = false
+
+        // I would use MainSerialExecutor.swift from pointfree here
+        // https://github.com/pointfreeco/swift-concurrency-extras/blob/main/Sources/ConcurrencyExtras/MainSerialExecutor.swift
+        // But this sleep should be enough for the demo app
+        try await Task.sleep(nanoseconds: 3_000_000_0)
+
+        #expect(!sut.hasInternetConnection)
     }
 }
 
