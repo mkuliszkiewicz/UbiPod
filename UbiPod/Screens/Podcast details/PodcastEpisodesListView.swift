@@ -10,7 +10,7 @@ struct PodcastEpisodesListView: View {
                     title: episode.trackName,
                     subtitle: episode.shortDescription,
                     duration: episode.durationDisplayString ?? "n/a",
-                    releaseDate: episode.releaseDate.displayString
+                    releaseDate: episode.releaseDate.formatted(date: .long, time: .shortened)
                 )
                 .clipShape(
                     RoundedRectangle(
@@ -34,6 +34,6 @@ extension PodcastEpisode {
     }
 
     var accessibilityLabel: String {
-        "Podcast episode: \(trackName), released: \(DateFormatter.accessibilityDateFormatter.string(from: releaseDate)), duration: \(durationDisplayString ?? "n/a")"
+        "Podcast episode: \(trackName), released: \(releaseDate.formatted(date: .complete, time: .omitted)), duration: \(durationDisplayString ?? "n/a")"
     }
 }

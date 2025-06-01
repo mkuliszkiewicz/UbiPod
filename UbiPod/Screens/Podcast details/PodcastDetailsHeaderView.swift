@@ -40,7 +40,7 @@ struct PodcastDetailsHeaderView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .foregroundStyle(.textSecondary)
 
-            Text("Latest episode release date: \(detailedPodcast.releaseDate.displayString)")
+            Text("Latest episode release date: \(detailedPodcast.releaseDate.formatted(date: .long, time: .shortened))")
                 .font(.subheadline.weight(.light))
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .foregroundStyle(.textSecondary)
@@ -52,7 +52,7 @@ struct PodcastDetailsHeaderView: View {
 
 extension DetailedPodcast {
     var accessibilityLabel: String {
-        "Podcast: \(name), episodes: \(trackCount), latest episode release date: \(DateFormatter.accessibilityDateFormatter.string(for: releaseDate) ?? "")"
+        "Podcast: \(name), episodes: \(trackCount), latest episode release date: \(releaseDate.formatted(date: .complete, time: .omitted))"
     }
 }
 

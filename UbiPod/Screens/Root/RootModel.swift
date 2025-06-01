@@ -26,8 +26,8 @@ final class RootModel: @unchecked Sendable {
 
         podcastsListModel.onPresentPodcastDetails = { [weak self] podcast in
             guard let self else { return }
-            Task { @MainActor in
-                self.presentPodcastDetails(podcast: podcast)
+            Task {
+                await self.presentPodcastDetails(podcast: podcast)
             }
         }
 
@@ -35,7 +35,8 @@ final class RootModel: @unchecked Sendable {
     }
 
     private func observeInternetConnection() {
-        withObservationTracking({
+        withObservationTracking({ [weak self] in
+            guard let self else { return }
             self.hasInternetConnection = dependencies.networkMonitor.hasInternetConnection
         }) { [weak self] in
             guard let self else { return }
