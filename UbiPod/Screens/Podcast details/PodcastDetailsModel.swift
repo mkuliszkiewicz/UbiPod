@@ -46,7 +46,7 @@ final class PodcastDetailsModel: HashableObject {
     }
 
     @MainActor
-    func load() async {
+    func reload() async {
         state = .loading
         do {
             let detailedPodcast = try await podcastDetailsLoader.loadPodcastDetails(podcastId: podcast.id)
@@ -61,5 +61,11 @@ final class PodcastDetailsModel: HashableObject {
             logger.error("failed to load podcast details: \(error, privacy: .auto)")
             state = .failed
         }
+    }
+
+    @MainActor
+    func firstLoad() async {
+        guard state == .idle || state == .failed else { return }
+        await reload()
     }
 }

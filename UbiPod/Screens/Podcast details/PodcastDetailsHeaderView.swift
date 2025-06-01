@@ -6,8 +6,7 @@ struct PodcastDetailsHeaderView: View {
     var body: some View {
         VStack(spacing: 8) {
             AsyncImage(
-                url: detailedPodcast.imageUrl,
-                transaction: Transaction(animation: .smooth)
+                url: detailedPodcast.imageUrl
             ) { phase in
                 switch phase {
                 case .empty:
@@ -34,6 +33,7 @@ struct PodcastDetailsHeaderView: View {
                 .font(.largeTitle.bold())
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .foregroundStyle(.textPrimary)
+                .padding(.vertical)
 
             Text("Episodes: \(detailedPodcast.trackCount)")
                 .font(.subheadline.weight(.light))

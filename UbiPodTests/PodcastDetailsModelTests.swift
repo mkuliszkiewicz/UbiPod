@@ -27,7 +27,7 @@ struct PodcastDetailsModelTests {
         #expect(sut.state == .idle)
 
         // Act
-        await sut.load()
+        await sut.firstLoad()
 
         // Assert
         #expect(sut.state == .failed)
@@ -51,7 +51,7 @@ struct PodcastDetailsModelTests {
         #expect(sut.state == .idle)
 
         // Act
-        await sut.load()
+        await sut.firstLoad()
 
         // Assert
         #expect(sut.state == .failed)
@@ -72,7 +72,7 @@ struct PodcastDetailsModelTests {
             podcastEpisodesLoader: podcastEpisodesLoader
         )
         // Act
-        await sut.load()
+        await sut.firstLoad()
 
         // Assert
         #expect(sut.state.content != nil)

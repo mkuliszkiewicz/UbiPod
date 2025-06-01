@@ -23,7 +23,7 @@ struct PodcastDetailsView: View {
             case .failed:
                 ErrorView(reason: "Unable to load podcast details") {
                     Task {
-                        await model.load()
+                        await model.firstLoad()
                     }
                 }
             }
@@ -34,7 +34,10 @@ struct PodcastDetailsView: View {
         .navigationBarTitleDisplayMode(.inline)
         .background(Color.backgroundSurface)
         .task {
-            await model.load()
+            await model.firstLoad()
+        }
+        .refreshable {
+            await model.reload()
         }
     }
 }

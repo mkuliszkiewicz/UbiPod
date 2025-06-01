@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "B4DC743A-F54C-4837-9F2C-32152D3C0944",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:UbiPod.xcodeproj",
+        "identifier" : "AC355C132DEAE645007A224F",
+        "name" : "UbiPodTests"
+      }
+    }
+  ],
+  "version" : 1
+}
