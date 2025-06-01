@@ -50,6 +50,12 @@ struct PodcastDetailsHeaderView: View {
     }
 }
 
+extension DetailedPodcast {
+    var accessibilityLabel: String {
+        "Podcast: \(name), episodes: \(trackCount), latest episode release date: \(DateFormatter.accessibilityDateFormatter.string(for: releaseDate) ?? "")"
+    }
+}
+
 #Preview {
     ZStack {
         Color.backgroundSurface.ignoresSafeArea()

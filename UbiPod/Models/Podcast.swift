@@ -25,13 +25,3 @@ struct Genre: Identifiable, Hashable, Decodable {
         case name
     }
 }
-
-extension Podcast {
-    var genresDisplayString: String {
-        genres.map(\.name).joined(separator: ", ")
-    }
-
-    var accessibilityLabel: String {
-        "Podcast: " + name + ", " + genresDisplayString
-    }
-}

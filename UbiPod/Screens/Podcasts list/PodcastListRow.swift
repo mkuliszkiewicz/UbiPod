@@ -25,13 +25,13 @@ struct PodcastListRow: View {
                 AsyncImage(url: imageUrl) { phase in
                     switch phase {
                     case .empty:
-                        Color.secondary
+                        EmptyView()
+                    case .failure:
+                        Color.backgroundSurface
                     case .success(let image):
                         image
                             .resizable()
                             .aspectRatio(contentMode: .fill)
-                    case .failure:
-                        EmptyView()
                     @unknown default:
                         EmptyView()
                     }
