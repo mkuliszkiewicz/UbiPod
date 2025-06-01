@@ -23,7 +23,7 @@ final class PodcastsAPIClient: TopPodcastsLoading, PodcastDetailsLoading, Podcas
 
         let jsonDecoder = JSONDecoder()
         jsonDecoder.dateDecodingStrategy = .iso8601
-        
+
         struct ResponseEnvelope: Decodable {
             let results: [EpisodesParsingHelper]
         }

@@ -67,5 +67,4 @@ struct PodcastDetailsHeaderView: View {
         )
         .padding()
     }
-
 }
