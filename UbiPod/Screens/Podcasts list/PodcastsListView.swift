@@ -44,10 +44,11 @@ struct PodcastsListView: View {
             case .failed:
                 ContentUnavailableView {
                     Label(
-                        "Unable to load podcast",
+                        "Unable to load podcasts",
                         systemImage: "x.circle"
                     )
                     .font(.title)
+                    .imageScale(.large)
                 } description: {
                     Text("Check your internet connection")
                         .padding()
@@ -85,7 +86,11 @@ extension Podcast {
         PodcastsListView(
             model: .init(
                 selectedCountry: .US,
-                topPodcastsLoader: PreviewPodcastsLoader()
+                topPodcastsLoader: PreviewPodcastsLoader(
+                    result: .failure(
+                        PreviewPodcastsLoader.LocalError()
+                    )
+                )
             )
         )
     }

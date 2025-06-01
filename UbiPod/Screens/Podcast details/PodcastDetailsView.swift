@@ -27,6 +27,7 @@ struct PodcastDetailsView: View {
                         systemImage: "x.circle"
                     )
                     .font(.title)
+                    .imageScale(.large)
                 } description: {
                     Text("Check your internet connection")
                         .padding()
