@@ -21,9 +21,20 @@ struct PodcastDetailsView: View {
                     .padding(.horizontal)
                 }
             case .failed:
-                ErrorView(reason: "Unable to load podcast details") {
-                    Task {
-                        await model.firstLoad()
+                ContentUnavailableView {
+                    Label(
+                        "Unable to load podcast",
+                        systemImage: "x.circle"
+                    )
+                    .font(.title)
+                } description: {
+                    Text("Check your internet connection")
+                        .padding()
+                } actions: {
+                    Button("Try again") {
+                        Task {
+                            await model.reload()
+                        }
                     }
                 }
             }
@@ -53,10 +64,11 @@ struct PodcastDetailsView: View {
                     genres: [.init(id: "1488", name: "True Crime")],
                     url: nil
                 ),
-                podcastDetailsLoader: PreviewPodcastDetailsLoader(),
+                podcastDetailsLoader: PreviewPodcastDetailsLoader(
+                    result: .failure(PreviewPodcastDetailsLoader.LocalError())
+                ),
                 podcastEpisodesLoader: PreviewPodcastEpisodesLoader()
             )
         )
     }
-
 }

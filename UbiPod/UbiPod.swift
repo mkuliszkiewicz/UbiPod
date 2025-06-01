@@ -18,10 +18,10 @@ struct MainEntryPoint {
 
     static func main() {
         // Avoid running the main app during unit tests
-        if NSClassFromString("XCTestCase") == nil {
-            UbiPodApp.main()
-        } else {
+        if NSClassFromString("XCTestCase") != nil || ProcessInfo.processInfo.environment["XCTestBundlePath"] != nil {
             TestApp.main()
+        } else {
+            UbiPodApp.main()
         }
     }
 }

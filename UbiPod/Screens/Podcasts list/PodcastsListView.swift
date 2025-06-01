@@ -42,14 +42,22 @@ struct PodcastsListView: View {
                     await model.reload()
                 }
             case .failed:
-                ErrorView(
-                    reason: "Unable to load podcasts",
-                    onTryAgain: {
+                ContentUnavailableView {
+                    Label(
+                        "Unable to load podcast",
+                        systemImage: "x.circle"
+                    )
+                    .font(.title)
+                } description: {
+                    Text("Check your internet connection")
+                        .padding()
+                } actions: {
+                    Button("Try again") {
                         Task {
                             await model.reload()
                         }
                     }
-                )
+                }
             }
         }
         .animation(.easeInOut, value: model.state)

@@ -9,7 +9,7 @@ struct PodcastDetailsModelTests {
 
     struct LocalError: Swift.Error {}
 
-    @Test
+    @Test("when loading of podcast details fails, the whole page loading should fail")
     func testLoad_whenLoadingDetailsFails_shouldFail() async throws {
         // Arrange
         let sut = PodcastDetailsModel(
@@ -33,7 +33,7 @@ struct PodcastDetailsModelTests {
         #expect(sut.state == .failed)
     }
 
-    @Test
+    @Test("when loading of podcast episodes fails, the whole page loading should fail")
     func testLoad_whenLoadingEpisodesFails_shouldFail() async throws {
         // Arrange
         let sut = PodcastDetailsModel(
@@ -57,7 +57,7 @@ struct PodcastDetailsModelTests {
         #expect(sut.state == .failed)
     }
 
-    @Test
+    @Test("when loading of details and episodes succeeds, should succeed")
     func testLoad_whenLoadingSucceeds_shouldUpdateState() async throws {
         // Arrange
         let sut = PodcastDetailsModel(

@@ -6,7 +6,7 @@ import Testing
 struct PodcastsListModelTests {
     let podcastsLoader = TestTopPodcastsLoader()
 
-    @Test
+    @Test("if state is idle, should execute the first load")
     func testFirstLoad_whenStateIsIdle_shouldLoad() async throws {
         // Arrange
         let sut = PodcastsListModel(
@@ -35,7 +35,7 @@ struct PodcastsListModelTests {
         #expect(sut.state.content?.first?.id == "expected-id")
     }
 
-    @Test
+    @Test("if state is failed, should execute the first load")
     func testFirstLoad_whenStateIsFailed_shouldLoad() async throws {
         // Arrange
         let sut = PodcastsListModel(
@@ -65,7 +65,7 @@ struct PodcastsListModelTests {
         #expect(sut.state.content?.first?.id == "expected-id")
     }
 
-    @Test
+    @Test("if state is loading, should NOT execute the first load")
     func testFirstLoad_whenStateIsLoading_shouldNotLoad() async throws {
         // Arrange
         let sut = PodcastsListModel(
@@ -94,7 +94,7 @@ struct PodcastsListModelTests {
         #expect(sut.state == .loading)
     }
 
-    @Test
+    @Test("when loading, should use provided country")
     func testReload_whenCalled_shouldPassCountry() async throws {
         // Arrange
         let sut = PodcastsListModel(
@@ -110,7 +110,7 @@ struct PodcastsListModelTests {
         #expect(podcastsLoader.limit == 10)
     }
 
-    @Test
+    @Test("when loading fails, it should update state")
     func testReload_whenFails_shouldUpdateState() async throws {
         // Arrange
         let sut = PodcastsListModel(
@@ -129,7 +129,7 @@ struct PodcastsListModelTests {
         #expect(sut.state == .failed)
     }
 
-    @Test
+    @Test("when updating the selected country it should reload the data")
     func testUpdateCountry_whenCalled_shouldUpdateAndReload() async throws {
         // Arrange
         let sut = PodcastsListModel(

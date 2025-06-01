@@ -7,7 +7,7 @@ struct RootModelTests {
     let networkMonitor = TestNetworkMonitor()
     let userDefaults = TestUserDefaults()
 
-    @Test
+    @Test("when created, should set list model closure")
     func testInit_whenCalled_shouldConfigurePodcastsListModel() async throws {
         // Arrange
         let sut = RootModel(
@@ -29,7 +29,7 @@ struct RootModelTests {
         // The success is lack of assertion
     }
 
-    @Test
+    @Test("podcast details presentation should update the navigation path")
     func testPresentingPodcasts_whenCalled_shouldUpdatePath() async throws {
         // Arrange
         let sut = RootModel(
@@ -57,7 +57,7 @@ struct RootModelTests {
         #expect(sut.path.count == 1)
     }
 
-    @Test
+    @Test("when created, should read the last selected country from user defaults")
     func testInit_whenCalled_shouldReadCountry() async throws {
         // Arrange
         userDefaults.storage["selected-country"] = "LV"
@@ -76,7 +76,7 @@ struct RootModelTests {
         #expect(sut.selectedCountry == .LV)
     }
 
-    @Test
+    @Test("when created, and no saved country, it should default to US")
     func testInit_whenCalledAndNoCountry_shouldDefaultToUS() async throws {
         // Arrange
         let sut = RootModel(
@@ -93,7 +93,7 @@ struct RootModelTests {
         #expect(sut.selectedCountry == .US)
     }
 
-    @Test
+    @Test("changing country should update the list model")
     func testChangingCountry_whenCalled_shouldUpdateListModel() async throws {
         // Arrange
         let sut = RootModel(
@@ -114,7 +114,7 @@ struct RootModelTests {
         #expect(listModel.selectedCountry == .PL)
     }
 
-    @Test
+    @Test("network connection state changes should be reflected in the model")
     func testNetworkObservation_whenChanges_shouldUpdateProperty() async throws {
         // Arrange
         networkMonitor.hasInternetConnection = true

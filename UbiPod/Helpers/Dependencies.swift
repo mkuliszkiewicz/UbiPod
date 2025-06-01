@@ -30,9 +30,7 @@ extension Dependencies {
             loadData: { request in
                 let session = URLSession.shared
                 do {
-                    let (data, urlResponse) = try await session.data(for: request)
-                    // logResponse(urlResponse: urlResponse, data: data, request: request)
-                    return (data, urlResponse)
+                    return try await session.data(for: request)
                 } catch let urlError as URLError where urlError.code == .notConnectedToInternet {
                     do {
                         var newRequest = request
@@ -59,19 +57,4 @@ extension Dependencies {
             userDefaults: PreviewUserDefaults()
         )
     }
-}
-
-private func logResponse(
-    urlResponse: URLResponse,
-    data: Data,
-    request: URLRequest
-) {
-    do {
-        let responseHeaders = (urlResponse as? HTTPURLResponse)?.allHeaderFields ?? [:]
-        let jsonObject = try JSONSerialization.jsonObject(with: data)
-        let formattedJson = try JSONSerialization.data(withJSONObject: jsonObject, options: [])
-        let responseJson = String(bytes: formattedJson, encoding: .utf8) ?? "n/a"
-        logger
-            .debug("Request: \(request.url?.absoluteString ?? "n/a", privacy: .auto)\nResponse:\n\(responseHeaders, privacy: .auto)\n\(responseJson, privacy: .private)")
-    } catch {}
 }

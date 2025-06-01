@@ -111,17 +111,34 @@ private enum EpisodesParsingHelper: Decodable {
     }
 }
 
-final class PreviewPodcastDetailsLoader: PodcastDetailsLoading {
-    func loadPodcastDetails(podcastId: String) async throws -> DetailedPodcast {
-        .init(
-            id: 1403172116,
-            name: "Kryminatorium",
-            imageUrl: URL(
-                string: "https://is1-ssl.mzstatic.com/image/thumb/Podcasts211/v4/63/b7/3b/63b73b95-3e7a-4515-4434-55d041005ce3/mza_5485170451367603359.jpg/600x600bb.jpg"
-            )!,
-            releaseDate: Date(),
-            trackCount: 100
+final class PreviewPodcastDetailsLoader: PodcastDetailsLoading, @unchecked Sendable {
+
+    struct LocalError: Swift.Error {}
+
+    var result: Result<DetailedPodcast, Error>
+
+    convenience init() {
+        self.init(
+            result: .success(
+                .init(
+                    id: 1403172116,
+                    name: "Kryminatorium",
+                    imageUrl: URL(
+                        string: "https://is1-ssl.mzstatic.com/image/thumb/Podcasts211/v4/63/b7/3b/63b73b95-3e7a-4515-4434-55d041005ce3/mza_5485170451367603359.jpg/600x600bb.jpg"
+                    )!,
+                    releaseDate: Date(),
+                    trackCount: 100
+                )
+            )
         )
+    }
+
+    init(result: Result<DetailedPodcast, Error>) {
+        self.result = result
+    }
+
+    func loadPodcastDetails(podcastId: String) async throws -> DetailedPodcast {
+        try result.get()
     }
 }
 
