@@ -16,7 +16,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "AC35565B2DE9CACF007A224F"
-               BuildableName = ".app"
+               BuildableName = "UbiPod.app"
                BlueprintName = "UbiPod"
                ReferencedContainer = "container:UbiPod.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "AC35565B2DE9CACF007A224F"
-            BuildableName = ".app"
+            BuildableName = "UbiPod.app"
             BlueprintName = "UbiPod"
             ReferencedContainer = "container:UbiPod.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "AC35565B2DE9CACF007A224F"
-            BuildableName = ".app"
+            BuildableName = "UbiPod.app"
             BlueprintName = "UbiPod"
             ReferencedContainer = "container:UbiPod.xcodeproj">
          </BuildableReference>

@@ -10,8 +10,10 @@ struct PodcastDetailsHeaderView: View {
                 transaction: Transaction(animation: .smooth)
             ) { phase in
                 switch phase {
-                case .empty, .failure:
+                case .empty:
                     EmptyView()
+                case .failure:
+                    Color.cardBackground
                 case .success(let image):
                     image
                         .resizable()
@@ -21,6 +23,12 @@ struct PodcastDetailsHeaderView: View {
                 }
             }
             .frame(height: 200)
+            .clipShape(
+                RoundedRectangle(
+                    cornerRadius: 8,
+                    style: .continuous
+                )
+            )
 
             Text(detailedPodcast.name)
                 .font(.largeTitle.bold())
@@ -40,4 +48,24 @@ struct PodcastDetailsHeaderView: View {
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(detailedPodcast.accessibilityLabel)
     }
+}
+
+#Preview {
+    ZStack {
+        Color.backgroundSurface.ignoresSafeArea()
+
+        PodcastDetailsHeaderView(
+            detailedPodcast: .init(
+                id: 1,
+                name: "Name",
+                imageUrl: URL(
+                    string: "https://"
+                )!,
+                releaseDate: .now,
+                trackCount: 1
+            )
+        )
+        .padding()
+    }
+
 }

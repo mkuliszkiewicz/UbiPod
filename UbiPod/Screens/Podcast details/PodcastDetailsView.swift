@@ -28,6 +28,7 @@ struct PodcastDetailsView: View {
                 }
             }
         }
+        .animation(.easeInOut, value: model.state)
         .toolbarRole(.editor) // hides a back button title
         .navigationTitle(model.title)
         .navigationBarTitleDisplayMode(.inline)
