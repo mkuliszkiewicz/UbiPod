@@ -1,14 +1,6 @@
 import Observation
 import os
 
-protocol PodcastDetailsLoading: AnyObject, Sendable {
-    func loadPodcastDetails(podcastId: String) async throws -> DetailedPodcast
-}
-
-protocol PodcastEpisodesLoading: AnyObject, Sendable {
-    func loadPodcastEpisodes(podcastId: String) async throws -> [PodcastEpisode]
-}
-
 private let logger = os.Logger(subsystem: "com.kuliszkiewicz.ubipod", category: "PodcastDetailsModel")
 
 @Observable
@@ -37,11 +29,13 @@ final class PodcastDetailsModel: HashableObject {
     }
 
     convenience init(podcast: Podcast, dependencies: Dependencies) {
-        let api = PodcastsAPIClient(loadData: dependencies.loadData)
+        let episodesLoader = PodcastEpisodesLoader(loadData: dependencies.loadData)
+        let detailsLoader = PodcastDetailsLoader(loadData: dependencies.loadData)
+
         self.init(
             podcast: podcast,
-            podcastDetailsLoader: api,
-            podcastEpisodesLoader: api
+            podcastDetailsLoader: detailsLoader,
+            podcastEpisodesLoader: episodesLoader
         )
     }
 

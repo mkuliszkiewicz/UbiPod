@@ -4,13 +4,6 @@ import os
 
 private let logger = os.Logger(subsystem: "com.kuliszkiewicz.ubipod", category: "PodcastsListModel")
 
-protocol TopPodcastsLoading: AnyObject, Sendable {
-    func loadTopPodcasts(
-        countryCode: String,
-        limit: UInt
-    ) async throws -> [Podcast]
-}
-
 @Observable
 final class PodcastsListModel {
     var onPresentPodcastDetails: (Podcast) -> Void = { _ in
@@ -35,7 +28,7 @@ final class PodcastsListModel {
     ) {
         self.init(
             selectedCountry: selectedCountry,
-            topPodcastsLoader: PodcastsAPIClient(
+            topPodcastsLoader: TopPodcastsLoader(
                 loadData: dependencies.loadData
             )
         )
